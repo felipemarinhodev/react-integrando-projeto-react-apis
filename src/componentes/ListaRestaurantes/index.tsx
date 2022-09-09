@@ -18,17 +18,7 @@ const ListaRestaurantes = () => {
   const [busca, setBusca] = useState<string>('');
 
   useEffect(() => {
-    axios
-      .get<IPaginacao<IRestaurante>>(
-        'http://localhost:8000/api/v1/restaurantes/'
-      )
-      .then((response) => {
-        setProximaPagina(response.data.next);
-        setRestaurantes(response.data.results);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    carregarDados('http://localhost:8000/api/v1/restaurantes/');
   }, []);
 
   const carregarDados = (url: string, opcoes: AxiosRequestConfig = {}) => {
