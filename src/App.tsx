@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
-import AdministracaoRestaurantes from './paginas/Administracao/Restaurantes';
+import AdministracaoRestaurantes from './paginas/Administracao/Restaurantes/AdministracaoRestaurantes';
 import Home from './paginas/Home';
 import VitrineRestaurantes from './paginas/VitrineRestaurantes';
 
