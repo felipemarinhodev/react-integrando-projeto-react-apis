@@ -5,6 +5,7 @@ import { IPaginacao } from '../../interfaces/IPaginacao';
 import style from './ListaRestaurantes.module.scss';
 import Restaurante from './Restaurante';
 import {
+  Box,
   Button,
   TextField,
   ToggleButton,
@@ -66,13 +67,18 @@ const ListaRestaurantes = () => {
       <h1>
         Os restaurantes mais <em>bacanas</em>!
       </h1>
-      <form onSubmit={handleRestaurantFiltered}>
+      <Box
+        component="form"
+        onSubmit={handleRestaurantFiltered}
+        sx={{ display: 'flex', gap: 1 }}
+      >
         <TextField
           id="name-filter-restaurant"
           label="Nome Restaurante"
           variant="standard"
           value={busca}
           onChange={(event) => setBusca(event.target.value)}
+          fullWidth
         />
         <ToggleButtonGroup
           value={ordenador}
@@ -90,7 +96,7 @@ const ListaRestaurantes = () => {
         <Button type="submit" variant="outlined">
           Pesquisar
         </Button>
-      </form>
+      </Box>
       {restaurantes?.map((item) => (
         <Restaurante restaurante={item} key={item.id} />
       ))}
