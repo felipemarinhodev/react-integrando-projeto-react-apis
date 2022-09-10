@@ -8,35 +8,31 @@ import {
   TableHead,
   TableRow,
 } from '@mui/material';
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import http from '../../../http';
 import IRestaurante from '../../../interfaces/IRestaurante';
 
 export default function AdministracaoRestaurantes() {
   const [restaurantes, setRestaurantes] = useState<IRestaurante[]>([]);
 
   useEffect(() => {
-    axios
-      .get<IRestaurante[]>('http://localhost:8000/api/v2/restaurantes/')
+    http
+      .get<IRestaurante[]>('restaurantes/')
       .then((resposta) => setRestaurantes(resposta.data));
   }, []);
 
   const removeRestaurant = (restauranteAtual: IRestaurante) => {
-    axios
-      .delete(
-        `http://localhost:8000/api/v2/restaurantes/${restauranteAtual.id}/`
-      )
-      .then(() => {
-        alert(
-          `O restaurante: ${restauranteAtual.nome} - ${restauranteAtual.id} foi excluido com sucesso.`
-        );
-        setRestaurantes(
-          restaurantes.filter(
-            (restaurante) => restaurante.id !== restauranteAtual.id
-          )
-        );
-      });
+    http.delete(`restaurantes/${restauranteAtual.id}/`).then(() => {
+      alert(
+        `O restaurante: ${restauranteAtual.nome} - ${restauranteAtual.id} foi excluido com sucesso.`
+      );
+      setRestaurantes(
+        restaurantes.filter(
+          (restaurante) => restaurante.id !== restauranteAtual.id
+        )
+      );
+    });
   };
 
   return (
