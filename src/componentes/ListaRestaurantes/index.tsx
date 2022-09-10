@@ -4,7 +4,12 @@ import IRestaurante from '../../interfaces/IRestaurante';
 import { IPaginacao } from '../../interfaces/IPaginacao';
 import style from './ListaRestaurantes.module.scss';
 import Restaurante from './Restaurante';
-import { Button, TextField } from '@mui/material';
+import {
+  Button,
+  TextField,
+  ToggleButton,
+  ToggleButtonGroup,
+} from '@mui/material';
 
 interface IParametrosBusca {
   ordering?: string;
@@ -16,6 +21,7 @@ const ListaRestaurantes = () => {
   const [proximaPagina, setProximaPagina] = useState<string>('');
   const [anteriorPagina, setAnteriorPagina] = useState<string>('');
   const [busca, setBusca] = useState<string>('');
+  const [ordenador, setOrdenador] = useState<'id' | 'nome'>('id');
 
   useEffect(() => {
     carregarDados('http://localhost:8000/api/v1/restaurantes/');
@@ -43,8 +49,16 @@ const ListaRestaurantes = () => {
     };
 
     if (busca) opcoes.params.search = busca;
+    if (ordenador) opcoes.params.ordering = ordenador;
 
     carregarDados('http://localhost:8000/api/v1/restaurantes/', opcoes);
+  };
+
+  const handleChange = (
+    event: React.MouseEvent<HTMLElement>,
+    novoFiltro: 'id' | 'nome'
+  ) => {
+    setOrdenador(novoFiltro);
   };
 
   return (
@@ -60,6 +74,19 @@ const ListaRestaurantes = () => {
           value={busca}
           onChange={(event) => setBusca(event.target.value)}
         />
+        <ToggleButtonGroup
+          value={ordenador}
+          exclusive
+          onChange={handleChange}
+          aria-label="Filtro de restaurante"
+        >
+          <ToggleButton value="id" aria-label="id">
+            id
+          </ToggleButton>
+          <ToggleButton value="nome" aria-label="nome">
+            nome
+          </ToggleButton>
+        </ToggleButtonGroup>
         <Button type="submit" variant="outlined">
           Pesquisar
         </Button>
