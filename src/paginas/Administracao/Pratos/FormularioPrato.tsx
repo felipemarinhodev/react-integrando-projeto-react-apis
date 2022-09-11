@@ -39,6 +39,24 @@ const FormularioPrato = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const formData = new FormData();
+    formData.append('nome', nomePrato);
+    formData.append('descricao', descricao);
+    formData.append('tag', tag);
+    formData.append('restaurante', restaurante);
+    !!imagem && formData.append('imagem', imagem);
+
+    http
+      .request({
+        url: 'pratos/',
+        method: 'POST',
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+        data: formData,
+      })
+      .then(() => alert(`O prato ${nomePrato} foi cadastrado com sucesso!`))
+      .catch((error) => console.log(error));
   };
 
   return (
@@ -80,7 +98,7 @@ const FormularioPrato = () => {
             onChange={(event) => setTag(event.target.value)}
           >
             {tags.map((tag) => (
-              <MenuItem value={tag.id} key={tag.id}>
+              <MenuItem value={tag.value} key={tag.id}>
                 {tag.value}
               </MenuItem>
             ))}
